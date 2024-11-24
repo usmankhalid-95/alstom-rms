@@ -1,0 +1,117 @@
+= API Documentation
+:toc: left
+:toclevels: 2
+:doctype: book
+
+== Train API
+
+=== Get All Trains
+
+Retrieve a list of all available trains in the system.
+
+This section documents the `GET /api/trains` endpoint.
+The response will include a list of all trains available.
+
+==== Curl Request
+
+include::{snippets}/get-all-trains/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/get-all-trains/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/get-all-trains/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/get-all-trains/response-fields.adoc[]
+
+=== Get Train By ID
+
+Fetch details of a specific train by its unique identifier.
+
+This section documents the `GET /api/trains/{id}` endpoint.
+The response will return the details of the specified train.
+
+==== Curl Request
+
+include::{snippets}/get-train-by-id/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/get-train-by-id/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/get-train-by-id/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/get-train-by-id/response-fields.adoc[]
+
+=== Create Train
+
+Create a new train record with the provided details.
+
+This section documents the `POST /api/trains` endpoint.
+The request requires the details of the train, and the response will confirm the creation of the new train.
+
+==== Curl Request
+
+include::{snippets}/create-train/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/create-train/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/create-train/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/create-train/response-fields.adoc[]
+
+=== Update Train By ID
+
+Update the details of an existing train using its ID.
+
+This section documents the `PUT /api/trains/{id}` endpoint.
+The request will update the details of the specified train, and the response will confirm the update.
+
+==== Curl Request
+
+include::{snippets}/update-train/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/update-train/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/update-train/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/update-train/response-fields.adoc[]
+
+=== Delete Train By ID
+
+Delete an existing train record based on its unique identifier.
+
+This section documents the `DELETE /api/trains/{id}` endpoint.
+The request will remove the specified train record, and the response will confirm the deletion.
+
+==== Curl Request
+
+include::{snippets}/delete-train-by-id/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/delete-train-by-id/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/delete-train-by-id/http-response.adoc[]
