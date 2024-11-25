@@ -10,11 +10,10 @@ The **Alstom Railway Management System (RMS)** is designed to streamline the ope
 - **Spring Boot-based Backend**: Built using Spring Boot, this project leverages RESTful APIs and integrated services for seamless operations.
 - **API Documentation**: The project includes detailed documentation (available in the repository) to help developers understand and utilize the API effectively.
 - **Postman Collection**: The API endpoints are tested and shared via a Postman collection to ensure functionality and ease of integration.
-- **Test-Driven Development**: The project follows TDD principles, with extensive unit implemented using Mockito and Spring Boot's testing capabilities.
+- **Test-Driven Development**: The project follows TDD principles, with extensive unit tests implemented using Mockito and Spring Boot's testing capabilities.
 
 ## Resources:
-- **Project Documentation**: [API Documentation](https://github.com/usmankhalid-95/alstom-rms/blob/main/src/test/java/alstom/rms/springboot/docs.java)
-- **Postman Collection**: [API Collection](https://docs.google.com/document/d/1jauzw7guJVB3TvgAoRacbZdPguvVbJYIGNFIXcNI5U8/edit?tab=t.0)
-- **Recorded Flow**: Video recordings of the project flow are available in parts, capturing the project’s progress and functionality.
+
+All relevant project documentation, API collection, and recorded flow are available in one place. You can access everything through the following [Google Drive folder](https://drive.google.com/drive/u/0/folders/1NBSZciMJwwvkIY9aAp-i72lXawHLWjts), which contains the API documentation, Postman collection, and video recordings of the project flow.
 
 Feel free to explore the repository or get in touch for collaboration opportunities!
