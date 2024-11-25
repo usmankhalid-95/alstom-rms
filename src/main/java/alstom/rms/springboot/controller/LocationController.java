@@ -4,6 +4,7 @@ import alstom.rms.springboot.model.Location;
 import alstom.rms.springboot.service.LocationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class LocationController {
         return ResponseEntity.ok(locationService.getLocationById(id));
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Location createLocation(@RequestBody @Valid Location location) {

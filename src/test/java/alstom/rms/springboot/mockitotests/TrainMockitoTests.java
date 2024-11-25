@@ -1,20 +1,16 @@
-package alstom.rms.springboot;
+package alstom.rms.springboot.mokitotests;
 
+import alstom.rms.springboot.BaseMockitoTests;
 import alstom.rms.springboot.controller.TrainController;
 import alstom.rms.springboot.model.Train;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,28 +22,16 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
-public class MockitoTests {
+public class TrainMockitoTests extends BaseMockitoTests {
 
-    private MockMvc mockMvc;
     @MockBean
     private TrainController trainController;
-
-    @BeforeEach
-    public void setUp(WebApplicationContext webApplicationContext,
-                      RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .alwaysDo(document("{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
-                .build();
-    }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -60,7 +44,7 @@ public class MockitoTests {
         when(trainController.getAllTrains()).thenReturn(trains);
 
         this.mockMvc.perform(get("/api/trains")
-                        .header("Authorization", "Bearer dummy_token") // Add Authorization header here
+                        .header("Authorization", "Bearer dummy_token")
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -81,7 +65,7 @@ public class MockitoTests {
         when(trainController.getTrainById(id)).thenReturn(ResponseEntity.ok(train));
 
         this.mockMvc.perform(get("/api/trains/{id}", id)
-                        .header("Authorization", "Bearer dummy_token")  // Add Authorization header here
+                        .header("Authorization", "Bearer dummy_token")
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -179,49 +163,16 @@ public class MockitoTests {
 
         when(trainController.deleteTrainById(id)).thenReturn(ResponseEntity.ok(expectedMessage));
 
-//        this.mockMvc.perform(delete("/api/trains/{id}", id)
-//                        .header("Authorization", "Bearer dummy_token")
-//                )
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("B77 data successfully deleted."))
-//                .andDo(document("delete-train",
-//                        responseFields(
-//                                fieldWithPath("response").description("The deletion confirmation message")
-//                        )
-//                ));
         this.mockMvc.perform(delete("/api/trains/{id}", id)
                         .header("Authorization", "Bearer dummy_token"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedMessage)) // Expecting plain text
-                .andDo(document("delete-train-by-id", // Update the documentation
+                .andExpect(content().string(expectedMessage))
+                .andDo(document("delete-train-by-id",
                         requestHeaders(
                                 headerWithName("Authorization").description("Bearer token for authentication")
                         ),
                         responseBody()
                 ));
     }
-
-//    @Test
-//    @WithMockUser(username = "admin", roles = {"ADMIN"})
-//    public void deleteTrainById() throws Exception {
-//        UUID id = UUID.randomUUID();
-//        String expectedMessage = "Train successfully deleted";
-//
-//        // Mocking the behavior of the delete API
-//        when(trainController.deleteTrainById(id)).thenReturn(ResponseEntity.ok(expectedMessage));
-//
-//        // Performing the DELETE request and validating response
-//        this.mockMvc.perform(delete("/api/trains/{id}", id)
-//                        .header("Authorization", "Bearer dummy_token"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(expectedMessage)) // Expecting plain text
-//                .andDo(document("delete-train-by-id", // Update the documentation
-//                        requestHeaders(
-//                                headerWithName("Authorization").description("Bearer token for authentication")
-//                        ),
-//                        responseBody() // Document the plain text response body
-//                ));
-//    }
-
 
 }
