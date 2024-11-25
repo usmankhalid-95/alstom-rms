@@ -1,6 +1,3 @@
-# alstom-rms
-A repository for alstom job test assignment.
-
 # About Me
 
 Welcome to my GitHub! This is the job evaluation assessment project focused on Railway Management. This project, titled **Alstom Railway Management System (RMS)**, involves creating and managing a Spring Boot-based application that handles various aspects of railway operations.
