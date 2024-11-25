@@ -1,6 +1,6 @@
 package alstom.rms.springboot;
 
-import alstom.rms.springboot.exception.ResourceNotFoundException;
+import alstom.rms.springboot.exception.CustomException;
 import alstom.rms.springboot.model.*;
 import alstom.rms.springboot.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TestData {
@@ -87,7 +88,7 @@ public class TestData {
     @Transactional
     public void saveOrUpdateLocation(Location location) {
         Location existingLocation = locationRepository.findByZipCode(location.getZipCode())
-                .orElseThrow(() -> new ResourceNotFoundException("Train doesn't exists with Number:" + location.getZipCode()));
+                .orElseThrow(() -> new CustomException("Train doesn't exists with Number:" + location.getZipCode()));
 
         if (existingLocation != null) {
             existingLocation.setCity(location.getCity());
@@ -100,7 +101,7 @@ public class TestData {
 
     private void setupStations() {
         Location alocation = locationRepository.findByZipCode("12120")
-                .orElseThrow(() -> new ResourceNotFoundException("Location doesn't exists with zipcode:" + "12120"));
+                .orElseThrow(() -> new CustomException("Location doesn't exists with zipcode:" + "12120"));
 
         if (alocation != null) {
             Station station = new Station();
@@ -118,7 +119,7 @@ public class TestData {
         }
 
         Location blocation = locationRepository.findByZipCode("10200").
-                orElseThrow(() -> new ResourceNotFoundException("Location doesn't exists with zipcode:" + "10200"));
+                orElseThrow(() -> new CustomException("Location doesn't exists with zipcode:" + "10200"));
         if (blocation != null) {
             Station station = new Station();
             station.setStationCode("LA01");
@@ -143,7 +144,7 @@ public class TestData {
 
     private void setupContacts() {
         Station astation = stationRepository.findByStationCode("NY01").
-                orElseThrow(() -> new ResourceNotFoundException("Station doesn't exists with code:" + "NY01"));
+                orElseThrow(() -> new CustomException("Station doesn't exists with code:" + "NY01"));
         if (astation != null) {
             Contact contact = new Contact();
             contact.setContactPerson("John Doe");
@@ -154,7 +155,7 @@ public class TestData {
         }
 
         Station bstation = stationRepository.findByStationCode("LA01")
-                .orElseThrow(() -> new ResourceNotFoundException("Station doesn't exists with zipcode:" + "LA01"));
+                .orElseThrow(() -> new CustomException("Station doesn't exists with zipcode:" + "LA01"));
         if (bstation != null) {
             Contact contact = new Contact();
             contact.setContactPerson("Jane Smith");
@@ -167,11 +168,11 @@ public class TestData {
 
     @Transactional
     public void saveOrUpdateContact(Contact contact) {
-        Contact existingContact = contactRepository.findByContactEmail(contact.getContactEmail());
+        Optional<Contact> existingContact = contactRepository.findByContactEmail(contact.getContactEmail());
         if (existingContact != null) {
-            existingContact.setContactPerson(contact.getContactPerson());
-            existingContact.setContactEmail(contact.getContactEmail());
-            contactRepository.save(existingContact);
+            existingContact.get().setContactPerson(contact.getContactPerson());
+            existingContact.get().setContactEmail(contact.getContactEmail());
+            contactRepository.save(existingContact.get());
         } else {
             contactRepository.save(contact);
         }
@@ -193,12 +194,12 @@ public class TestData {
 
     @Transactional
     public void saveOrUpdatePassenger(Passenger passenger) {
-        Passenger existingpassenger = passengerRepository.findByContactEmail(passenger.getContactEmail());
+        Optional<Passenger> existingpassenger = passengerRepository.findByContactEmail(passenger.getContactEmail());
         if (existingpassenger != null) {
-            existingpassenger.setPassengerName(passenger.getPassengerName());
-            existingpassenger.setContactEmail(passenger.getContactEmail());
-            existingpassenger.setContactPhone(passenger.getContactPhone());
-            passengerRepository.save(existingpassenger);
+            existingpassenger.get().setPassengerName(passenger.getPassengerName());
+            existingpassenger.get().setContactEmail(passenger.getContactEmail());
+            existingpassenger.get().setContactPhone(passenger.getContactPhone());
+            passengerRepository.save(existingpassenger.get());
         } else {
             passengerRepository.save(passenger);
         }
@@ -277,20 +278,20 @@ public class TestData {
     }
 
     private void setupTickets() {
-        Passenger aPassenger = passengerRepository.findByContactEmail("john.doe@nycentral.com");
-        Passenger bPassenger = passengerRepository.findByContactEmail("jane.smith@lausunion.com");
+        Optional<Passenger> aPassenger = passengerRepository.findByContactEmail("john.doe@nycentral.com");
+        Optional<Passenger> bPassenger = passengerRepository.findByContactEmail("jane.smith@lausunion.com");
 
         Station originStation = stationRepository.findByStationCode("LA01").
-                orElseThrow(() -> new ResourceNotFoundException("Station doesn't exists with code:" + "LA01"));
+                orElseThrow(() -> new CustomException("Station doesn't exists with code:" + "LA01"));
         Station destinationStation = stationRepository.findByStationCode("NY01")
-                .orElseThrow(() -> new ResourceNotFoundException("Station doesn't exists with zipcode:" + "NY01"));
+                .orElseThrow(() -> new CustomException("Station doesn't exists with zipcode:" + "NY01"));
 
         Schedule aSchedule = scheduleRepository
                 .findByAllColumns(trainRepository.findByTrainNumber("B66"), originStation, destinationStation);
         if (aPassenger != null && aSchedule != null) {
             Ticket ticket = new Ticket();
             ticket.setSeatNumbers(List.of("1A", "2A"));
-            ticket.setPassenger(aPassenger);
+            ticket.setPassenger(aPassenger.get());
             ticket.setSchedule(aSchedule);
             ticket.setDepartureDate(LocalDate.now().plusDays(1));
             saveOrUpdateTicket(ticket);
@@ -301,7 +302,7 @@ public class TestData {
         if (bPassenger != null && bSchedule != null) {
             Ticket ticket = new Ticket();
             ticket.setSeatNumbers(List.of("1B", "2B"));
-            ticket.setPassenger(bPassenger);
+            ticket.setPassenger(bPassenger.get());
             ticket.setSchedule(bSchedule);
             ticket.setDepartureDate(LocalDate.now().plusDays(2));
             saveOrUpdateTicket(ticket);

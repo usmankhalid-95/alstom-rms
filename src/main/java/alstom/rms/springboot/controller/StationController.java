@@ -1,10 +1,7 @@
 package alstom.rms.springboot.controller;
 
-import alstom.rms.springboot.exception.ResourceNotFoundException;
-import alstom.rms.springboot.model.Location;
 import alstom.rms.springboot.model.Station;
-import alstom.rms.springboot.repository.LocationRepository;
-import alstom.rms.springboot.repository.StationRepository;
+import alstom.rms.springboot.service.StationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,67 +16,37 @@ import java.util.UUID;
 public class StationController {
 
     @Autowired
-    private StationRepository stationRepository;
-    @Autowired
-    private LocationRepository locationRepository;
+    private StationService stationService;
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping
     public List<Station> getAllStations() {
-        return stationRepository.findAll();
+        return stationService.getAllStations();
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("{id}")
     public ResponseEntity<Station> getStationById(@PathVariable UUID id) {
-        Station station = stationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Station doesn't exists with id:" + id));
-        return ResponseEntity.ok(station);
+        return ResponseEntity.ok(stationService.getStationById(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Station createStation(@RequestBody @Valid Station station) {
-        if (station.getLocation().getId() == null) {
-            throw new ResourceNotFoundException("location id cannot be null");
-        }
-
-        UUID locationId = UUID.fromString(String.valueOf(station.getLocation().getId()));
-        Location location = locationRepository.findById(locationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found with ID: " + locationId));
-        station.setLocation(location);
-
-        return stationRepository.save(station);
+        return stationService.createStation(station);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<Station> updateStationById(@PathVariable UUID id, @RequestBody Station stationDetails) {
-        Station updateStation = stationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Station doesn't exists with id:" + id));
-
-        if (stationDetails.getStationCode() != null) {
-            updateStation.setStationCode(stationDetails.getStationCode());
-        }
-        if (stationDetails.getStationName() != null) {
-            updateStation.setStationName(stationDetails.getStationName());
-        }
-        if (stationDetails.getLocation() != null) {
-            updateStation.setLocation(stationDetails.getLocation());
-        }
-
-        stationRepository.save(updateStation);
-        return ResponseEntity.ok(updateStation);
+        return ResponseEntity.ok(stationService.updateStationById(id, stationDetails));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteStationById(@PathVariable UUID id) {
-        Station station = stationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Station doesn't exists with id:" + id));
-
-        stationRepository.delete(station);
-        return ResponseEntity.ok(station.getStationName() + " station data successfully deleted.");
+        stationService.deleteStationById(id);
+        return ResponseEntity.ok("Station data successfully deleted.");
     }
 
 }

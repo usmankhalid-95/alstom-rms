@@ -39,7 +39,7 @@ public class Ticket {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "ticket_number", nullable = false)
+    @Column(name = "ticket_number", unique = true, nullable = false)
     private String ticketNumber;
 
     @NotNull(message = "seatNumbers cannot be null")

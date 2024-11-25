@@ -1,8 +1,7 @@
 package alstom.rms.springboot.controller;
 
-import alstom.rms.springboot.exception.ResourceNotFoundException;
 import alstom.rms.springboot.model.Train;
-import alstom.rms.springboot.repository.TrainRepository;
+import alstom.rms.springboot.service.TrainService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,53 +17,38 @@ import java.util.UUID;
 public class TrainController {
 
     @Autowired
-    private TrainRepository trainRepository;
+    private TrainService trainService;
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping
     public List<Train> getAllTrains() {
-        return trainRepository.findAll();
+        return trainService.getAllTrains();
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("{id}")
     public ResponseEntity<Train> getTrainById(@PathVariable UUID id) {
-        Train train = trainRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Train doesn't exists with id:" + id));
-        return ResponseEntity.ok(train);
+        return ResponseEntity.ok(trainService.getTrainById(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Train createTrain(@RequestBody @Valid Train train) {
-        return trainRepository.save(train);
+        return trainService.createTrain(train);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<Train> updateTrainById(@PathVariable UUID id, @RequestBody Train trainDetails) {
-        Train updateTrain = trainRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Train doesn't exists with id:" + id));
-        if (trainDetails.getTrainNumber() != null) {
-            updateTrain.setTrainNumber(trainDetails.getTrainNumber());
-        }
-        if (trainDetails.getSeatCapacity() != null) {
-            updateTrain.setSeatCapacity(trainDetails.getSeatCapacity());
-        }
-
-        trainRepository.save(updateTrain);
-        return ResponseEntity.ok(updateTrain);
+        return ResponseEntity.ok(trainService.updateTrainById(id, trainDetails));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteTrainById(@PathVariable UUID id) {
-        Train updateTrain = trainRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Train doesn't exists with id:" + id));
-
-        trainRepository.delete(updateTrain);
-        return ResponseEntity.ok(updateTrain.getTrainNumber() + " train data successfully deleted.");
+        trainService.deleteTrainById(id);
+        return ResponseEntity.ok("Train data successfully deleted.");
     }
 
 }
