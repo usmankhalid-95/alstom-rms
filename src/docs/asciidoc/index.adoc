@@ -115,3 +115,246 @@ include::{snippets}/delete-train-by-id/http-request.adoc[]
 ==== HTTP Response
 
 include::{snippets}/delete-train-by-id/http-response.adoc[]
+
+== Location API
+
+=== Get All Locations
+
+Retrieve a list of all available locations in the system.
+
+This section documents the `GET /api/locations` endpoint.
+The response will include a list of all locations available.
+
+==== Curl Request
+
+include::{snippets}/get-all-locations/curl-request.adoc[]
+
+==== Response
+
+include::{snippets}/get-all-locations/response-fields.adoc[]
+
+=== Get Location by ID
+
+Retrieve a single location by its unique identifier.
+
+This section documents the `GET /api/locations/{id}` endpoint.
+The response will include the details of the location.
+
+==== Curl Request
+
+include::{snippets}/get-location-by-id/curl-request.adoc[]
+
+==== Response
+
+include::{snippets}/get-location-by-id/response-fields.adoc[]
+
+=== Create Location
+
+Create a new location entry.
+
+This section documents the `POST /api/locations` endpoint.
+The request must include the location details to create a new location.
+
+==== Curl Request
+
+include::{snippets}/create-location/curl-request.adoc[]
+
+// ==== Request Body
+//
+// include::{snippets}/create-location/request-fields.adoc[]
+//
+// ==== Response
+//
+// include::{snippets}/create-location/response-fields.adoc[]
+
+=== Update Location
+
+Update an existing location entry.
+
+This section documents the `PUT /api/locations/{id}` endpoint.
+
+==== Curl Request
+
+include::{snippets}/update-location/curl-request.adoc[]
+
+==== Request Body
+
+include::{snippets}/update-location/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/update-location/response-fields.adoc[]
+
+=== Delete Location by ID
+
+Delete a location by its unique identifier.
+
+This section documents the `DELETE /api/locations/{id}` endpoint.
+
+==== Curl Request
+
+include::{snippets}/delete-location-by-id/curl-request.adoc[]
+
+==== Response
+
+include::{snippets}/delete-location-by-id/response-body.adoc[]
+
+== Contact API
+
+=== Get All Contacts
+
+Retrieve a list of all available contacts in the system.
+
+This section documents the `GET /api/contacts` endpoint.
+The response will include a list of all contacts available.
+
+==== Curl Request
+
+include::{snippets}/get-all-contacts/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/get-all-contacts/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/get-all-contacts/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/get-all-contacts/response-fields.adoc[]
+
+=== Get Contact By ID
+
+Fetch details of a specific contact by its unique identifier.
+
+This section documents the `GET /api/contacts/{id}` endpoint.
+The response will return the details of the specified contact.
+
+==== Curl Request
+
+include::{snippets}/get-contact-by-id/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/get-contact-by-id/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/get-contact-by-id/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/get-contact-by-id/response-fields.adoc[]
+
+=== Create Contact
+
+Create a new contact record with the provided details.
+
+This section documents the `POST /api/contacts` endpoint.
+The request requires the details of the contact, and the response will confirm the creation of the new contact.
+
+==== Curl Request
+
+include::{snippets}/create-contact/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/create-contact/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/create-contact/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/create-contact/response-fields.adoc[]
+
+=== Update Contact By ID
+
+Update the details of an existing contact using its ID.
+
+This section documents the `PUT /api/contacts/{id}` endpoint.
+The request will update the details of the specified contact, and the response will confirm the update.
+
+==== Curl Request
+
+// include::{snippets}/update-contact/curl-request.adoc[]
+//
+// ==== HTTP Request
+//
+// include::{snippets}/update-contact/http-request.adoc[]
+//
+// ==== HTTP Response
+//
+// include::{snippets}/update-contact/http-response.adoc[]
+//
+// ==== Response Fields
+//
+// include::{snippets}/update-contact/response-fields.adoc[]
+
+=== Delete Contact By ID
+
+Delete an existing contact record based on its unique identifier.
+
+This section documents the `DELETE /api/contacts/{id}` endpoint.
+The request will remove the specified contact record, and the response will confirm the deletion.
+
+==== Curl Request
+
+include::{snippets}/delete-contact-by-id/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/delete-contact-by-id/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/delete-contact-by-id/http-response.adoc[]
+
+== Passenger API
+
+=== Get All Passengers
+
+Retrieve a list of all passengers in the system.
+
+This section documents the `GET /api/passengers` endpoint.
+
+==== Curl Request
+
+include::{snippets}/get-all-passengers/curl-request.adoc[]
+
+==== Response
+
+include::{snippets}/get-all-passengers/response-fields.adoc[]
+
+=== Get Passenger by ID
+
+Retrieve a single passenger by its unique identifier.
+
+This section documents the `GET /api/passengers/{id}` endpoint.
+
+==== Curl Request
+
+include::{snippets}/get-passenger-by-id/curl-request.adoc[]
+
+==== Response
+
+include::{snippets}/get-passenger-by-id/response-fields.adoc[]
+
+=== Create Passenger
+
+Create a new passenger entry.
+
+This section documents the `POST /api/passengers` endpoint.
+
+==== Curl Request
+
+include::{snippets}/create-passenger/curl-request.adoc[]
+
+==== Request Body
+
+include::{snippets}/create-passenger/request-fields.adoc[]
+
+====
+
